@@ -23,7 +23,6 @@ class pinjol:
         self.daftar_debitur = []
         self.daftar_pinjaman = []
 
-    # Bagian untuk Kelola Debitur
     def tambah_debitur(self, nama, ktp, limit_pinjaman):
         if any(debitur.ktp == ktp for debitur in self.daftar_debitur):
             print(f"KTP '{ktp}' sudah ada.")
