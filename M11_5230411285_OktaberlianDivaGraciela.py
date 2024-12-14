@@ -5,54 +5,54 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 
-def preprocess_data(filename):
+def proses_data(nama_file):
     try:
-        df = pd.read_excel(filename)
-        print("\nData sebelum preprocessing:")
+        df = pd.read_excel(nama_file)
+        print("\nData sebelum diproses:")
         print(df.head())
         
         df = df.dropna()
-        print("\nData setelah preprocessing:")
+        print("\nData setelah diproses:")
         print(df.head())
         return df
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Terjadi kesalahan: {e}")
         return None
     
-filename = "air_quality.xlsx"  
-data = preprocess_data(filename)
+nama_file = "air_quality.xlsx"  
+data = proses_data(nama_file)
 
-def naive_bayes_model(df, target_column):
+def model_naive_bayes(df, kolom_target):
     try:
-        X = df.drop(columns=[target_column])
-        y = df[target_column]
+        X = df.drop(columns=[kolom_target])
+        y = df[kolom_target]
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         
         model = GaussianNB()
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
         
-        accuracy = accuracy_score(y_test, y_pred)
-        print(f"Akurasinya adalah: {accuracy:.2f}")
+        akurasi = accuracy_score(y_test, y_pred)
+        print(f"Akurasinya adalah: {akurasi:.2f}")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Terjadi kesalahan: {e}")
 
-def decision_tree_model(df, target_column):
+def model_pohon_keputusan(df, kolom_target):
     try:
-        X = df.drop(columns=[target_column])
-        y = df[target_column]
+        X = df.drop(columns=[kolom_target])
+        y = df[kolom_target]
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         
         model = DecisionTreeClassifier()
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
         
-        accuracy = accuracy_score(y_test, y_pred)
-        print(f"Akurasinya adalah: {accuracy:.2f}")
+        akurasi = accuracy_score(y_test, y_pred)
+        print(f"Akurasinya adalah: {akurasi:.2f}")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Terjadi kesalahan: {e}")
 
-def main_menu():
+def menu_utama():
     while True:
         print("\n===================================")
         print("              Naive Bayes           ")
@@ -64,23 +64,23 @@ def main_menu():
         pilihan = input("Pilih Menu: ")
 
         if pilihan == '1':
-            filename = input("Masukkan nama file (contoh: air_quality.xlsx): ")
+            nama_file = input("Masukkan nama file (contoh: air_quality.xlsx): ")
             global data
-            data = preprocess_data(filename)
+            data = proses_data(nama_file)
             if data is not None:
                 print("\nData berhasil diinput dan diproses.")
         elif pilihan == '2':
             if 'data' in globals() and data is not None:
-                target_column = input("Masukkan nama kolom target: ")
+                kolom_target = input("Masukkan nama kolom target: ")
                 print("\nPilih Algoritma:")
                 print("1. Naive Bayes")
-                print("2. Decision Tree")
+                print("2. Pohon Keputusan")
                 algo = input("Pilih Algoritma: ")
                 
                 if algo == '1':
-                    naive_bayes_model(data, target_column)
+                    model_naive_bayes(data, kolom_target)
                 elif algo == '2':
-                    decision_tree_model(data, target_column)
+                    model_pohon_keputusan(data, kolom_target)
                 else:
                     print("Pilihan algoritma tidak valid.")
             else:
@@ -94,4 +94,4 @@ def main_menu():
             print("Pilihan tidak valid. Silakan coba lagi.")
 
 if __name__ == "__main__":
-    main_menu()
+    menu_utama()
